@@ -174,6 +174,7 @@ Other_tax <- tax[which(fuelTypes == 'Other')]
 Petrol_mpg <- mpg[which(fuelTypes == 'Petrol')]
 Diesel_mpg <- mpg[which(fuelTypes == 'Diesel')]
 Hybrid_mpg <- mpg[which(fuelTypes == 'Hybrid')]
+Electric_mpg <- mpg[which(fuelTypes == 'Electric')]
 Other_mpg <- mpg[which(fuelTypes == 'Other')]
 
 
