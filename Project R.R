@@ -12,67 +12,67 @@ tax=carData$tax
 mpg=carData$mpg
 mpg_without_electric<-mpg[which(fuelTypes!="Electric", TRUE)]
 
-# 2. Изследване на променливите поотделно
-# 2.1. разпределение на колите според вида двигател
+# 2. РР·СЃР»РµРґРІР°РЅРµ РЅР° РїСЂРѕРјРµРЅР»РёРІРёС‚Рµ РїРѕРѕС‚РґРµР»РЅРѕ
+# 2.1. СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ РЅР° РєРѕР»РёС‚Рµ СЃРїРѕСЂРµРґ РІРёРґР° РґРІРёРіР°С‚РµР»
 
 par(mfrow = c(1,2))
 table_fuels <- table(fuelTypes)
 percents <- round(100*table_fuels / sum(table_fuels), 1)
 colors <- c("#E77471", "#C2DFFF", "#FFA07A", "#9FE2BF","#DFFF00")
 
-barplot(table_fuels, names.arg = c("Дизел", "Елекрически","Хибрид", "Други","Бензин"), col = "#F70D1A")
+barplot(table_fuels, names.arg = c("Р”РёР·РµР»", "Р•Р»РµРєСЂРёС‡РµСЃРєРё","РҐРёР±СЂРёРґ", "Р”СЂСѓРіРё","Р‘РµРЅР·РёРЅ"), col = "#F70D1A")
 
-pie(x = table_fuels, main = "Видове двигатели", labels = percents, col = colors)
-legend(x = "bottomright", legend = c("Дизел", "Елекрически","Хибрид", "Други","Бензин"), cex = 1, fill = colors)
+pie(x = table_fuels, main = "Р’РёРґРѕРІРµ РґРІРёРіР°С‚РµР»Рё", labels = percents, col = colors)
+legend(x = "bottomright", legend = c("Р”РёР·РµР»", "Р•Р»РµРєСЂРёС‡РµСЃРєРё","РҐРёР±СЂРёРґ", "Р”СЂСѓРіРё","Р‘РµРЅР·РёРЅ"), cex = 1, fill = colors)
 par(mfrow = c(1, 1))
 
-# 2.2. данък, числова непрекъсната
+# 2.2. РґР°РЅСЉРє, С‡РёСЃР»РѕРІР° РЅРµРїСЂРµРєСЉСЃРЅР°С‚Р°
 par(mfrow = c(1, 2))
-# хистограма
-hist(tax, main = "вероятностно разпределение", 
-     xlab = "британски лири", ylab = "честота",
+# С…РёСЃС‚РѕРіСЂР°РјР°
+hist(tax, main = "РІРµСЂРѕСЏС‚РЅРѕСЃС‚РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ", 
+     xlab = "Р±СЂРёС‚Р°РЅСЃРєРё Р»РёСЂРё", ylab = "С‡РµСЃС‚РѕС‚Р°",
      col = "#C5908E", prob = TRUE, ylim = c(0, 0.02))
 
 # boxplot
-boxplot(tax, main = "данък", ylab = "британски лири", col = "#FFDB58")
+boxplot(tax, main = "РґР°РЅСЉРє", ylab = "Р±СЂРёС‚Р°РЅСЃРєРё Р»РёСЂРё", col = "#FFDB58")
 par(mfrow = c(1, 1))
 
 # qqplot
 set.seed(9504)
 height_normal_distrib <- rnorm(n = 1000, mean = mean(tax), sd = sd(tax))
 
-qqplot(tax, height_normal_distrib, main = "данък", 
-       xlab = "реални стойности", ylab = "теоретично нормално разпределение")
+qqplot(tax, height_normal_distrib, main = "РґР°РЅСЉРє", 
+       xlab = "СЂРµР°Р»РЅРё СЃС‚РѕР№РЅРѕСЃС‚Рё", ylab = "С‚РµРѕСЂРµС‚РёС‡РЅРѕ РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ")
 abline(a = 0, b = 1)
 
-# ниво на съгласие
+# РЅРёРІРѕ РЅР° СЃСЉРіР»Р°СЃРёРµ
 alpha <- 0.05
 
-# тест за нормално разпределение
+# С‚РµСЃС‚ Р·Р° РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ
 shapiro.test(tax) 
 # p-value = 0.08102 > 0.05 = alpha
-# имаме нормално разпределение
+# РёРјР°РјРµ РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ
 
 #Anderson-Darling normality test
 library(nortest)
 ad.test(tax)$p.value
 
-# локация
+# Р»РѕРєР°С†РёСЏ
 round(mean(tax), 3)
 # 116.953
-# дисперсия
+# РґРёСЃРїРµСЂСЃРёСЏ
 round(sd(tax), 3)
 # 64.046
 
-# 2.3. mpg, числова непрекъсната
+# 2.3. mpg, С‡РёСЃР»РѕРІР° РЅРµРїСЂРµРєСЉСЃРЅР°С‚Р°
 par(mfrow = c(1, 2))
-# хистограма
-hist(mpg, main = "вероятностно разпределение", 
-     xlab = "изминати мили за един галон", ylab = "честота",
+# С…РёСЃС‚РѕРіСЂР°РјР°
+hist(mpg, main = "РІРµСЂРѕСЏС‚РЅРѕСЃС‚РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ", 
+     xlab = "РёР·РјРёРЅР°С‚Рё РјРёР»Рё Р·Р° РµРґРёРЅ РіР°Р»РѕРЅ", ylab = "С‡РµСЃС‚РѕС‚Р°",
      col = "#6AFB92", prob = TRUE, ylim = c(0, 0.05))
 
 # boxplot
-boxplot(mpg, main = "mpg", ylab = "литри", col = "#FFA62F")
+boxplot(mpg, main = "mpg", ylab = "Р»РёС‚СЂРё", col = "#FFA62F")
 par(mfrow = c(1, 1))
 
 # qqplot
@@ -80,32 +80,32 @@ set.seed(734)
 handspan_normal_distrib <- rnorm(n = 1000, mean = mean(mpg), sd = sd(mpg))
 
 qqplot(mpg, handspan_normal_distrib, main = "mpg", 
-       xlab = "реални стойности", ylab = "теоретичното нормално разпределение")
+       xlab = "СЂРµР°Р»РЅРё СЃС‚РѕР№РЅРѕСЃС‚Рё", ylab = "С‚РµРѕСЂРµС‚РёС‡РЅРѕС‚Рѕ РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ")
 abline(a = 0, b = 1)
 
-# ниво на съгласие
+# РЅРёРІРѕ РЅР° СЃСЉРіР»Р°СЃРёРµ
 alpha <- 0.05
 
-# тест за нормално разпределение
+# С‚РµСЃС‚ Р·Р° РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ
 shapiro.test(mpg) 
 # p-value = 0.003831 < 0.05 = alpha
-# нямаме нормално разпределение
+# РЅСЏРјР°РјРµ РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ
 
 #Anderson-Darling normality test
 library(nortest)
 ad.test(mpg)$p.value
 
-# локация
+# Р»РѕРєР°С†РёСЏ
 round(median(mpg), 3)
 # 55.4
-# дисперсия
+# РґРёСЃРїРµСЂСЃРёСЏ
 round(mad(mpg), 3)
 # 11.119
 
-# 3. Изследване на взаимодействия между променливите
-# 3.1. категорийни обясняващи и числови зависими
-# 3.1.1. вид двигател и данък 
-boxplot(tax ~ fuelTypes,  xlab = "вид двигател", ylab = "данък", col = "#8C001A")
+# 3. РР·СЃР»РµРґРІР°РЅРµ РЅР° РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ РјРµР¶РґСѓ РїСЂРѕРјРµРЅР»РёРІРёС‚Рµ
+# 3.1. РєР°С‚РµРіРѕСЂРёР№РЅРё РѕР±СЏСЃРЅСЏРІР°С‰Рё Рё С‡РёСЃР»РѕРІРё Р·Р°РІРёСЃРёРјРё
+# 3.1.1. РІРёРґ РґРІРёРіР°С‚РµР» Рё РґР°РЅСЉРє 
+boxplot(tax ~ fuelTypes,  xlab = "РІРёРґ РґРІРёРіР°С‚РµР»", ylab = "РґР°РЅСЉРє", col = "#8C001A")
 Petrol_tax <- tax[which(fuelTypes == 'Petrol')]
 Diesel_tax <- tax[which(fuelTypes == 'Diesel')]
 Hybrid_tax <- tax[which(fuelTypes == 'Hybrid')]
@@ -113,11 +113,11 @@ Electric_tax <- tax[which(fuelTypes == 'Electric')]
 Other_tax <- tax[which(fuelTypes == 'Other')]
 
 par(mfrow = c(1, 2))
-hist(Petrol_tax, main = "", xlab = "данък в лири за Бензин", ylab = "честота", col = "#E55451", prob = TRUE)
-hist(Diesel_tax, main = "", xlab = "данък в лири за Дизел", ylab = "честота", col = "#E55451", prob = TRUE)
-hist(Hybrid_tax, main = "", xlab = "данък в лири за Хибрид", ylab = "честота", col = "#E55451", prob = TRUE)
-hist(Electric_tax, main = "", xlab = "данък в лири за Елекрически", ylab = "честота", col = "#E55451", prob = TRUE)
-hist(Other_tax, main = "", xlab = "данък в лири за Други", ylab = "честота", col = "#E55451", prob = TRUE)
+hist(Petrol_tax, main = "", xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё Р·Р° Р‘РµРЅР·РёРЅ", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
+hist(Diesel_tax, main = "", xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё Р·Р° Р”РёР·РµР»", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
+hist(Hybrid_tax, main = "", xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё Р·Р° РҐРёР±СЂРёРґ", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
+hist(Electric_tax, main = "", xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё Р·Р° Р•Р»РµРєСЂРёС‡РµСЃРєРё", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
+hist(Other_tax, main = "", xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё Р·Р° Р”СЂСѓРіРё", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
 
 par(mfrow = c(1, 1))
 
@@ -132,22 +132,22 @@ ad.test(Petrol_tax)
 lillie.test(Petrol_tax) 
 
 
-# женския и мъжкия ръст са нормално разпределени
+# Р¶РµРЅСЃРєРёСЏ Рё РјСЉР¶РєРёСЏ СЂСЉСЃС‚ СЃР° РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅРё
 
 
-# 3.1.2.вид двигател и mpg
+# 3.1.2.РІРёРґ РґРІРёРіР°С‚РµР» Рё mpg
 boxplot(mpg_without_electric ~ fuelTypes_without_electric, 
-        xlab = "вид двигател", ylab = "mpg", col = "#728C00")
+        xlab = "РІРёРґ РґРІРёРіР°С‚РµР»", ylab = "mpg", col = "#728C00")
 Petrol_mpg <- mpg[which(fuelTypes == 'Petrol')]
 Diesel_mpg <- mpg[which(fuelTypes == 'Diesel')]
 Hybrid_mpg <- mpg[which(fuelTypes == 'Hybrid')]
 Other_mpg <- mpg[which(fuelTypes == 'Other')]
 
 par(mfrow = c(1, 2))
-hist(Petrol_mpg, main = "", xlab = "мили изминати с един галон Бензин", ylab = "честота", col = "#E55451", prob = TRUE)
-hist(Diesel_mpg, main = "", xlab = "мили изминати с един галон Дизел", ylab = "честота", col = "#E55451", prob = TRUE)
-hist(Hybrid_mpg, main = "", xlab = "мили изминати с един галон гориво при Хибрид", ylab = "честота", col = "#E55451", prob = TRUE)
-hist(Other_mpg, main = "", xlab = "мили изминати с един галон гориво при Други", ylab = "честота", col = "#E55451", prob = TRUE)
+hist(Petrol_mpg, main = "", xlab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ Р‘РµРЅР·РёРЅ", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
+hist(Diesel_mpg, main = "", xlab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ Р”РёР·РµР»", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
+hist(Hybrid_mpg, main = "", xlab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ РіРѕСЂРёРІРѕ РїСЂРё РҐРёР±СЂРёРґ", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
+hist(Other_mpg, main = "", xlab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ РіРѕСЂРёРІРѕ РїСЂРё Р”СЂСѓРіРё", ylab = "С‡РµСЃС‚РѕС‚Р°", col = "#E55451", prob = TRUE)
 
 par(mfrow = c(1, 1))
 
@@ -161,10 +161,10 @@ shapiro.test(Diesel_mpg)
 #Anderson-Darling normality test
 ad.test(Petrol_mpg)
 
-# педята на жените не е нормално разпределена, а мъжката е 
+# РїРµРґСЏС‚Р° РЅР° Р¶РµРЅРёС‚Рµ РЅРµ Рµ РЅРѕСЂРјР°Р»РЅРѕ СЂР°Р·РїСЂРµРґРµР»РµРЅР°, Р° РјСЉР¶РєР°С‚Р° Рµ 
 
-# 3.2. числови обясняващи и числови зависими
-# 3.2.2 данък и mpg
+# 3.2. С‡РёСЃР»РѕРІРё РѕР±СЏСЃРЅСЏРІР°С‰Рё Рё С‡РёСЃР»РѕРІРё Р·Р°РІРёСЃРёРјРё
+# 3.2.2 РґР°РЅСЉРє Рё mpg
 Petrol_tax <- tax[which(fuelTypes == 'Petrol')]
 Diesel_tax <- tax[which(fuelTypes == 'Diesel')]
 Hybrid_tax <- tax[which(fuelTypes == 'Hybrid')]
@@ -178,29 +178,29 @@ Other_mpg <- mpg[which(fuelTypes == 'Other')]
 
 
 
-plot(tax, mpg, xlab = "данък в лири", ylab = "мили изминати с един галон")
+plot(tax, mpg, xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё", ylab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ")
 abline(a = 80, b = 5, lwd = 1)
 
-plot(Petrol_tax, Petrol_mpg, xlab = "данък в лири", ylab = "мили изминати с един галон Бензин")
+plot(Petrol_tax, Petrol_mpg, xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё", ylab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ Р‘РµРЅР·РёРЅ")
 abline(a = 80, b = 5, lwd = 1)
 
-plot(Electric_tax, Electric_mpg, xlab = "данък в лири", ylab = "мили изминати с Електричество с едно зареждане")
+plot(Electric_tax, Electric_mpg, xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё", ylab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ Р•Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ СЃ РµРґРЅРѕ Р·Р°СЂРµР¶РґР°РЅРµ")
 abline(a = 80, b = 5, lwd = 1)
 
-plot(Diesel_tax, Diesel_mpg, xlab = "данък в лири", ylab = "мили изминати с един галон Дизел")
+plot(Diesel_tax, Diesel_mpg, xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё", ylab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ Р”РёР·РµР»")
 abline(a = 80, b = 5, lwd = 1)
 
-plot(Other_tax, Other_mpg, xlab = "данък в лири", ylab = "мили изминати с един галон Други горива")
+plot(Other_tax, Other_mpg, xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё", ylab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ Р”СЂСѓРіРё РіРѕСЂРёРІР°")
 abline(a = 80, b = 5, lwd = 1)
 
-plot(Hybrid_tax, Hybrid_mpg, xlab = "данък в лири", ylab = "мили изминати с един галон горива при Хибрид")
+plot(Hybrid_tax, Hybrid_mpg, xlab = "РґР°РЅСЉРє РІ Р»РёСЂРё", ylab = "РјРёР»Рё РёР·РјРёРЅР°С‚Рё СЃ РµРґРёРЅ РіР°Р»РѕРЅ РіРѕСЂРёРІР° РїСЂРё РҐРёР±СЂРёРґ")
 abline(a = 80, b = 5, lwd = 1)
 
-# корелация
+# РєРѕСЂРµР»Р°С†РёСЏ
 rho <- round(cor(tax, mpg, method = "spearman"), 3)
 rho_Petrol <- round(cor(Petrol_tax, Petrol_mpg, method = "spearman"), digits = 3)
 rho_Electric <- round(cor(Electric_tax, Electric_mpg, method = "spearman"), digits = 3)
 
-abs(rho) # 0.646
-abs(rho_Petrol) # 0.341
-abs(rho_Electric) # 0.385
+abs(rho) 
+abs(rho_Petrol) 
+abs(rho_Electric) 
