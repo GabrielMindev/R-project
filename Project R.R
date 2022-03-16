@@ -39,9 +39,9 @@ par(mfrow = c(1, 1))
 
 # qqplot
 set.seed(9504)
-height_normal_distrib <- rnorm(n = 1000, mean = mean(tax), sd = sd(tax))
+tax_normal_distrib <- rnorm(n = 1000, mean = mean(tax), sd = sd(tax))
 
-qqplot(tax, height_normal_distrib, main = "данък", 
+qqplot(tax, tax_normal_distrib, main = "данък", 
        xlab = "реални стойности", ylab = "теоретично нормално разпределение")
 abline(a = 0, b = 1)
 
@@ -50,8 +50,6 @@ alpha <- 0.05
 
 # тест за нормално разпределение
 shapiro.test(tax) 
-# p-value = 0.08102 > 0.05 = alpha
-# имаме нормално разпределение
 
 #Anderson-Darling normality test
 library(nortest)
@@ -77,19 +75,11 @@ par(mfrow = c(1, 1))
 
 # qqplot
 set.seed(734)
-handspan_normal_distrib <- rnorm(n = 1000, mean = mean(mpg), sd = sd(mpg))
+mpg_normal_distrib <- rnorm(n = 1000, mean = mean(mpg), sd = sd(mpg))
 
-qqplot(mpg, handspan_normal_distrib, main = "mpg", 
+qqplot(mpg, mpg_normal_distrib, main = "mpg", 
        xlab = "реални стойности", ylab = "теоретичното нормално разпределение")
 abline(a = 0, b = 1)
-
-# ниво на съгласие
-alpha <- 0.05
-
-# тест за нормално разпределение
-shapiro.test(mpg) 
-# p-value = 0.003831 < 0.05 = alpha
-# нямаме нормално разпределение
 
 #Anderson-Darling normality test
 library(nortest)
@@ -121,19 +111,9 @@ hist(Other_tax, main = "", xlab = "данък в лири за Други", ylab
 
 par(mfrow = c(1, 1))
 
-shapiro.test(Petrol_tax)  
-# p-value = 0.1313 > 0.05 = alpha
-
-shapiro.test(Diesel_tax) 
-# p-value = 0.7162 > 0.05 = alpha
-
 #Anderson-Darling normality test
 ad.test(Petrol_tax)
 lillie.test(Petrol_tax) 
-
-
-# женския и мъжкия ръст са нормално разпределени
-
 
 # 3.1.2.вид двигател и mpg
 boxplot(mpg_without_electric ~ fuelTypes_without_electric, 
@@ -151,17 +131,8 @@ hist(Other_mpg, main = "", xlab = "мили изминати с един гал�
 
 par(mfrow = c(1, 1))
 
-shapiro.test(Petrol_mpg) 
-# p-value = 0.002367 < 0.05 = alpha
-
-shapiro.test(Diesel_mpg) 
-# p-value = 0.06273 > 0.05 = alpha
-
-
 #Anderson-Darling normality test
 ad.test(Petrol_mpg)
-
-# педята на жените не е нормално разпределена, а мъжката е 
 
 # 3.2. числови обясняващи и числови зависими
 # 3.2.2 данък и mpg
